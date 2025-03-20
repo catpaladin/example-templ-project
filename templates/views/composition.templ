@@ -1,0 +1,14 @@
+package views
+
+import "example-templ-project/internal/components"
+
+templ CatContent(title string) {
+	@components.CatLayout(title) {
+		<main>
+			<div class="cat-container">
+				<h1>Welcome to my catalog of templates</h1>
+				<p>This is an amazing demo of Templ with HTMX.</p>
+			</div>
+		</main>
+	}
+}

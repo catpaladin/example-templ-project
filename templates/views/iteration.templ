@@ -1,0 +1,103 @@
+package views
+
+import (
+  "fmt"
+
+  "example-templ-project/internal/components"
+)
+
+type Cat struct {
+	ID       int
+	Name     string
+	Breed    string
+	Naps     int
+	FavToy   string
+}
+
+templ CatList(cats []Cat) {
+	<div class="cat-collection">
+		<h2>Cat Collection</h2>
+		<ul>
+			for _, cat := range cats {
+				<li id={"cat-" + fmt.Sprint(cat.ID)} class="cat-item">
+					<strong>{cat.Name}</strong> - {cat.Breed}
+					<div>Naps today: {fmt.Sprintf("%d", cat.Naps)}</div>
+					<div>Favorite toy: {cat.FavToy}</div>
+					<button
+						hx-get={"/pet-cat/" + fmt.Sprint(cat.ID)}
+						hx-target={"#cat-" + fmt.Sprint(cat.ID)}
+						hx-swap="outerHTML"
+					>
+						Pet {cat.Name}
+					</button>
+				</li>
+			}
+		</ul>
+	</div>
+}
+
+templ CatPage(cats []Cat, hasTreats bool) {
+	@components.CatLayout("Cat Paradise") {
+		<main>
+			<div id="treats-section">
+				@CatTreatingSection(hasTreats)
+			</div>
+
+			<div class="cat-collection">
+				<h2>Cat Collection</h2>
+				<ul>
+					for _, cat := range cats {
+						@CatListItem(cat)
+					}
+				</ul>
+			</div>
+		</main>
+	}
+}
+
+// Treatments section component
+templ CatTreatingSection(hasTreats bool) {
+	<div id="treats-section" class="cat-container">
+		if hasTreats {
+			<h2>Treats are available! 🍤</h2>
+			<div>
+				<span>😻 All cats are happy!</span>
+				<button
+					hx-post="/treats?hasTreats=false"
+					hx-target="#treats-section"
+					hx-swap="outerHTML"
+					class="treat-button">
+					Put Treats Away
+				</button>
+			</div>
+		} else {
+			<h2>No treats currently</h2>
+			<div>
+				<button
+					hx-post="/treats?hasTreats=true"
+					hx-target="#treats-section"
+					hx-swap="outerHTML"
+					class="treat-button">
+					Give Treats to All Cats
+				</button>
+			</div>
+		}
+	</div>
+}
+
+// Individual cat item
+templ CatListItem(cat Cat) {
+	<li id={"cat-" + fmt.Sprint(cat.ID)} class="cat-item">
+		<strong>{cat.Name}</strong> - {cat.Breed}
+		<div>Naps today: {fmt.Sprintf("%d", cat.Naps)}</div>
+		<div>Favorite toy: {cat.FavToy}</div>
+		<button
+			hx-get={"/pet-cat/" + fmt.Sprint(cat.ID)}
+			hx-target={"#cat-" + fmt.Sprint(cat.ID)}
+			hx-swap="outerHTML"
+			class="treat-button"
+		>
+			Pet {cat.Name}
+		</button>
+	</li>
+}

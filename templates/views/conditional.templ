@@ -1,0 +1,30 @@
+package views
+
+import "example-templ-project/internal/components"
+
+templ CatTreatingContent(catName string, hasTreats bool) {
+    <div id="cat-treating" class="cat-container">
+        if hasTreats {
+            <h1>Thank you for the treats, {catName}!</h1>
+            <div>
+                <span>😻 Happy cat is happy!</span>
+                <button hx-post="/conditional?hasTreats=false" hx-target="#cat-treating" hx-swap="outerHTML" class="treat-button">
+                    Reset
+                </button>
+            </div>
+        } else {
+            <h1>Hello, {catName}!</h1>
+            <div>
+                <button hx-post="/conditional?hasTreats=true" hx-target="#cat-treating" hx-swap="outerHTML" class="treat-button">
+                    Give Treats
+                </button>
+            </div>
+        }
+    </div>
+}
+
+templ CatTreatingPage(catName string, hasTreats bool) {
+    @components.CatLayout("Treats") {
+        @CatTreatingContent(catName, hasTreats)
+    }
+}

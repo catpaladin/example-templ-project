@@ -1,0 +1,42 @@
+package components
+
+templ CatLayout(title string) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>{title}</title>
+			<!-- HTMX for interactivity without JavaScript -->
+			<script src="https://unpkg.com/htmx.org@1.9.6"></script>
+			<style>
+				body {
+					font-family: system-ui, sans-serif;
+					max-width: 800px;
+					margin: 0 auto;
+					padding: 1rem;
+					background-color: #fffaf5;
+				}
+				.cat-container {
+					border: 2px solid #ffb74d;
+					border-radius: 8px;
+					padding: 1rem;
+					margin-bottom: 1rem;
+				}
+				.cat-paw {
+					cursor: pointer;
+					display: inline-block;
+					transition: transform 0.2s;
+				}
+				.cat-paw:hover {
+					transform: rotate(10deg);
+				}
+			</style>
+		</head>
+		<body>
+			<header>
+				<span class="cat-paw">🐾</span> <strong>Templ Demo</strong>
+			</header>
+			{ children... }
+		</body>
+	</html>
+}
+

@@ -1,0 +1,13 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "./scripts/generate-templ.sh && go build -o ./tmp/main ./cmd/${CMD_DIR}"
+  bin = "./tmp/main"
+  include_ext = ["go", "templ"]
+  exclude_regex = ["_templ.go"]
+  delay = 1000
+  exclude_dir = ["assets", "tmp", "vendor"]
+
+[screen]
+  clear_on_rebuild = true
