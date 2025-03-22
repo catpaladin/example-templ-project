@@ -13,7 +13,7 @@ run: build
 # Usage: make dev CMD_DIR=greeting-example
 CMD_DIR ?= server
 dev:
-	EXAMPLE_DIR=$(CMD_DIR) air
+	CMD_DIR=$(CMD_DIR) air
 
 clean:
 	rm -rf bin/
